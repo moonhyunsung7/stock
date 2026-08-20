@@ -1,0 +1,40 @@
+name: Daily Stock/ETF Chart Alert
+
+on:
+  schedule:
+    # 21:30 UTC = 06:30 KST (다음날) — 미국장 마감 + 한국장(전일) 마감 데이터 모두 확정된 시점
+    - cron: "30 21 * * 1-5"
+  workflow_dispatch: {}  # 수동 실행(Actions 탭 > Run workflow) 테스트용
+
+permissions:
+  contents: write
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily pipeline
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/daily_pipeline.py
+
+      - name: Commit charts & report
+        run: |
+          git config user.name "stock-alert-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add charts reports
+          git diff --cached --quiet || git commit -m "Daily chart/report update $(date -u +'%Y-%m-%d')"
+          git push
