@@ -1,3 +1,4 @@
+scripts/universe.py
 """
 분석 대상 종목 유니버스 선정
 - 한국 주식: pykrx 로 코스피+코스닥 전 종목의 당일 거래대금 상위 N개 (ETF/ETN/스팩 제외)
