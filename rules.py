@@ -1,3 +1,4 @@
+scripts/rules.py
 """
 매매 규칙 엔진 (Custom_Rule)
 - 프로젝트 문서 `claude/매매규칙-Custom_Rule.md` 의 기준을 코드로 그대로 구현한 것입니다.
