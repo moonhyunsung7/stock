@@ -1,3 +1,4 @@
+scripts/indicators.py
 """
 기술적 지표 계산 유틸리티
 - 이동평균선(MA20, MA60)
