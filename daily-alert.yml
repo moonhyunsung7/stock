@@ -1,3 +1,4 @@
+scripts/daily_pipeline.py
 name: Daily Stock/ETF Chart Alert
 
 on:
